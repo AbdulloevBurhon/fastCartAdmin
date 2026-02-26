@@ -1,0 +1,263 @@
+src/
+│
+├── app/                       # Конфигурация приложения
+│   ├── store.js
+│   ├── router.jsx
+│   ├── providers.jsx
+│   └── index.js
+│
+├── layouts/
+│   ├── AuthLayout.jsx
+│   ├── DashboardLayout.jsx
+│   └── components/
+│        ├── Sidebar.jsx
+│        ├── Header.jsx
+│        └── LayoutWrapper.jsx
+│
+├── shared/                    # Переиспользуемое
+│   ├── api/
+│   │    axios.js
+│   │    endpoints.js
+│   │
+│   ├── ui/
+│   │    Button.jsx
+│   │    Input.jsx
+│   │    Select.jsx
+│   │    Checkbox.jsx
+│   │    Badge.jsx
+│   │    Modal.jsx
+│   │    Pagination.jsx
+│   │    Table/
+│   │       Table.jsx
+│   │       TableRow.jsx
+│   │
+│   ├── components/
+│   │    SearchInput.jsx
+│   │    StatusBadge.jsx
+│   │    FileUpload.jsx
+│   │    RichEditor.jsx
+│   │    ColorPicker.jsx
+│   │
+│   ├── hooks/
+│   │    useModal.js
+│   │    useDebounce.js
+│   │    usePagination.js
+│   │
+│   └── utils/
+│        formatCurrency.js
+│        formatDate.js
+│
+├── features/
+│
+│   ├── auth/
+│   │    authSlice.js
+│   │    authThunks.js
+│   │    authSelectors.js
+│   │
+│   ├── dashboard/
+│   │    dashboardSlice.js
+│   │    dashboardThunks.js
+│   │
+│   ├── orders/
+│   │    ordersSlice.js
+│   │    ordersThunks.js
+│   │    components/
+│   │       OrdersTable.jsx
+│   │
+│   ├── products/
+│   │    productsSlice.js
+│   │    productsThunks.js
+│   │    components/
+│   │       ProductsTable.jsx
+│   │       ProductForm.jsx
+│   │
+│   ├── categories/
+│   │    categoriesSlice.js
+│   │    categoriesThunks.js
+│   │
+│   ├── brands/
+│   │    brandsSlice.js
+│   │    brandsThunks.js
+│   │
+│   ├── banners/
+│   │    bannersSlice.js
+│   │    bannersThunks.js
+│   │
+│   └── modals/
+│        modalSlice.js
+│
+├── pages/
+│   ├── auth/
+│   │    LoginPage.jsx
+│   │    ResetPasswordPage.jsx
+│   │
+│   ├── dashboard/
+│   │    DashboardPage.jsx
+│   │
+│   ├── orders/
+│   │    OrdersPage.jsx
+│   │
+│   ├── products/
+│   │    ProductsPage.jsx
+│   │    AddProductPage.jsx
+│   │
+│   └── other/
+│        CategoriesPage.jsx
+│        BrandsPage.jsx
+│        BannersPage.jsx
+│
+├── routes/
+│   ├── PrivateRoute.jsx
+│   └── PublicRoute.jsx
+│
+├── main.jsx
+└── index.css
+
+
+
+🧠 Почему именно так?
+🟢 app
+
+Только конфигурация (store, router)
+
+🟢 layouts
+
+UI-структура (Sidebar, Header)
+
+🟢 shared
+
+Повторно используемые компоненты
+
+🟢 features
+
+Redux + бизнес логика
+
+🟢 pages
+
+Чистые страницы (без логики)
+
+
+
+
+🧠 Redux архитектура
+
+Мы используем:
+
+createSlice
+createAsyncThunk
+
+Store:
+
+{
+  auth,
+  dashboard,
+  orders,
+  products,
+  categories,
+  brands,
+  banners,
+  modal
+}
+🚦 Router структура
+/auth/login
+/auth/reset
+
+/dashboard
+
+/orders
+
+/products
+/products/new
+/products/:id
+
+/other/categories
+/other/brands
+/other/banners
+🔐 Auth Flow (Production-ready)
+
+login
+
+token → localStorage
+
+axios interceptor
+
+protected routes
+
+logout
+
+auto redirect
+
+🪟 Универсальная Modal система
+
+Через modalSlice:
+
+openModal({ type: "DELETE_PRODUCT", payload })
+closeModal()
+
+Один глобальный <ModalRoot />
+
+📊 Dashboard
+
+dashboardSlice
+
+loadStats()
+
+loadRevenue()
+
+loadTopProducts()
+
+🧩 UI система
+
+Мы сделаем:
+
+один Button
+
+один Input
+
+один Table
+
+один Modal
+
+один Badge
+
+И будем переиспользовать везде.
+
+🚀 Масштабируемость
+
+Если проект вырастет:
+
+добавим RTK Query
+
+разделим на entities/widgets
+
+добавим role-based access
+
+🎯 Теперь план действий
+
+Шаг 1:
+Создаем базовую структуру папок
+
+Шаг 2:
+Настраиваем store + router
+
+Шаг 3:
+Делаем Layout систему
+
+Шаг 4:
+Делаем Auth
+
+Шаг 5:
+Подключаем Orders
+
+Шаг 6:
+Products CRUD
+
+💬 Вопрос:
+
+Ты хочешь:
+
+1️⃣ Сначала я дам тебе готовые базовые файлы (store/router/layout)
+или
+2️⃣ Пойдем шаг за шагом и будем писать вместе как настоящий прод-проект?
+
+Выбирай режим 🔥
