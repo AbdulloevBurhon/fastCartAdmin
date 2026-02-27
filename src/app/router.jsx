@@ -8,6 +8,8 @@ import OrdersPage from '@/pages/orders/OrdersPage'
 
 import AuthLayout from '@/layouts/AuthLayout'
 import DashboardLayout from '@/layouts/DashboardLayout'
+import OtherPage from '@/pages/other/Otherpage'
+import ProductsPage from '@/pages/products/ProductsPage'
 
 export const router = createBrowserRouter([
  {
@@ -25,7 +27,9 @@ export const router = createBrowserRouter([
   children: [
    { index: true, element: <Navigate to="dashboard" replace /> },
    { path: 'dashboard', element: <DashboardPage /> },
-   { path: 'orders', element: <OrdersPage /> }
+   { path: 'orders', element: <OrdersPage /> },
+   { path: 'products', element: <ProductsPage /> },
+   { path: 'other', element: <OtherPage /> }
   ]
  }
 ])

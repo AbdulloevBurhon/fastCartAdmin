@@ -1,0 +1,1322 @@
+// // // import RecentTransactions from './sections/RecentTransactions'
+// // // import SalesChart from './sections/SalesChart'
+// // // import StatsCards from './sections/StatsCards'
+// // // import TopProducts from './sections/TopProducts'
+
+// // // export default function DashboardPage() {
+// // //  return (
+// // //   <div className="space-y-6">
+// // //    <h1 className="text-2xl font-bold">Dashboard</h1>
+
+// // //    <StatsCards />
+
+// // //    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+// // //     <div className="xl:col-span-2">
+// // //      <SalesChart />
+// // //     </div>
+
+// // //     <TopProducts />
+// // //    </div>
+
+// // //    <RecentTransactions />
+// // //   </div>
+// // //  )
+// // // }
+
+// // import {
+// //  CartesianGrid,
+// //  Line,
+// //  LineChart,
+// //  ResponsiveContainer,
+// //  Tooltip,
+// //  XAxis,
+// //  YAxis
+// // } from 'recharts'
+
+// // // ─── DATA ────────────────────────────────────────────────────────────────────
+
+// // const salesData = [
+// //  { month: 'Jan', value: 10 },
+// //  { month: 'Feb', value: 5 },
+// //  { month: 'Mar', value: 15 },
+// //  { month: 'Apr', value: 10 },
+// //  { month: 'May', value: 35 },
+// //  { month: 'Jun', value: 30 },
+// //  { month: 'Jul', value: 35 },
+// //  { month: 'Aug', value: 50 },
+// //  { month: 'Sep', value: 45 },
+// //  { month: 'Oct', value: 25 },
+// //  { month: 'Nov', value: 25 },
+// //  { month: 'Dec', value: 35 }
+// // ]
+
+// // const topSellingProducts = [
+// //  { name: 'Healthcare Erbology', category: 'in Accessories', sales: '13,153' },
+// //  { name: 'Healthcare Erbology', category: 'in Accessories', sales: '13,153' },
+// //  { name: 'Healthcare Erbology', category: 'in Accessories', sales: '13,153' },
+// //  { name: 'Healthcare Erbology', category: 'in Accessories', sales: '13,153' },
+// //  { name: 'Healthcare Erbology', category: 'in Accessories', sales: '13,153' }
+// // ]
+
+// // const transactions = [
+// //  {
+// //   name: 'Jagarnath S.',
+// //   date: '24.05.2023',
+// //   amount: '$124.97',
+// //   status: 'Paid'
+// //  },
+// //  { name: 'Anand G.', date: '23.05.2023', amount: '$55.42', status: 'Pending' },
+// //  { name: 'Kartik S.', date: '23.05.2023', amount: '$89.90', status: 'Paid' },
+// //  {
+// //   name: 'Rakesh S.',
+// //   date: '22.05.2023',
+// //   amount: '$144.94',
+// //   status: 'Pending'
+// //  },
+// //  { name: 'Anup S.', date: '22.05.2023', amount: '$70.52', status: 'Paid' },
+// //  { name: 'Jimmy P.', date: '22.05.2023', amount: '$70.52', status: 'Paid' }
+// // ]
+
+// // const topProductsByUnits = [
+// //  { name: 'Men Grey Hoodie', price: '$49.90', units: 204, img: 'hoodie' },
+// //  { name: 'Women Striped T-Shirt', price: '$34.90', units: 155, img: 'striped' },
+// //  { name: 'Wome White T-Shirt', price: '$40.90', units: 120, img: 'white' },
+// //  { name: 'Men White T-Shirt', price: '$49.90', units: 204, img: 'white2' },
+// //  { name: 'Women Red T-Shirt', price: '$34.90', units: 155, img: 'red' }
+// // ]
+
+// // // ─── PRODUCT THUMBNAIL ───────────────────────────────────────────────────────
+
+// // function ProductThumb({ type }) {
+// //  const configs = {
+// //   hoodie: { bg: '#2a2a2a', accent: '#555', label: '🧥' },
+// //   striped: { bg: '#1a1a1a', accent: '#444', label: '👕' },
+// //   white: { bg: '#2e2e2e', accent: '#666', label: '👕' },
+// //   white2: { bg: '#252525', accent: '#555', label: '👕' },
+// //   red: { bg: '#2a1515', accent: '#8b2222', label: '👕' }
+// //  }
+// //  const c = configs[type] || configs.hoodie
+// //  return (
+// //   <div
+// //    style={{
+// //     width: 44,
+// //     height: 44,
+// //     borderRadius: 8,
+// //     background: c.bg,
+// //     border: `1px solid ${c.accent}`,
+// //     display: 'flex',
+// //     alignItems: 'center',
+// //     justifyContent: 'center',
+// //     fontSize: 20,
+// //     flexShrink: 0
+// //    }}
+// //   >
+// //    {c.label}
+// //   </div>
+// //  )
+// // }
+
+// // // ─── PRODUCT AVATAR (top selling) ────────────────────────────────────────────
+
+// // function SellingProductAvatar() {
+// //  return (
+// //   <div
+// //    style={{
+// //     width: 48,
+// //     height: 48,
+// //     borderRadius: 8,
+// //     background: '#1e2a20',
+// //     border: '1px solid #2e3d30',
+// //     display: 'flex',
+// //     alignItems: 'center',
+// //     justifyContent: 'center',
+// //     fontSize: 22,
+// //     flexShrink: 0
+// //    }}
+// //   >
+// //    🌿
+// //   </div>
+// //  )
+// // }
+
+// // // ─── STATUS BADGE ────────────────────────────────────────────────────────────
+
+// // function StatusBadge({ status }) {
+// //  const isPaid = status === 'Paid'
+// //  return (
+// //   <span
+// //    style={{
+// //     display: 'inline-block',
+// //     padding: '4px 14px',
+// //     borderRadius: 6,
+// //     fontSize: 13,
+// //     fontWeight: 500,
+// //     background: isPaid
+// //      ? 'rgba(100, 220, 150, 0.15)'
+// //      : 'rgba(150, 130, 220, 0.15)',
+// //     color: isPaid ? '#6edfa0' : '#b0a0e0',
+// //     border: `1px solid ${isPaid ? 'rgba(100,220,150,0.3)' : 'rgba(150,130,220,0.3)'}`
+// //    }}
+// //   >
+// //    {status}
+// //   </span>
+// //  )
+// // }
+
+// // // ─── STATS CARD ──────────────────────────────────────────────────────────────
+
+// // function StatsCard({ label, value, icon, bgCard, bgIcon, iconColor }) {
+// //  return (
+// //   <div
+// //    style={{
+// //     background: bgCard,
+// //     borderRadius: 16,
+// //     padding: '20px 24px',
+// //     display: 'flex',
+// //     alignItems: 'center',
+// //     gap: 16
+// //    }}
+// //   >
+// //    <div
+// //     style={{
+// //      width: 52,
+// //      height: 52,
+// //      borderRadius: 12,
+// //      background: bgIcon,
+// //      display: 'flex',
+// //      alignItems: 'center',
+// //      justifyContent: 'center',
+// //      fontSize: 22,
+// //      flexShrink: 0
+// //     }}
+// //    >
+// //     <span style={{ color: iconColor }}>{icon}</span>
+// //    </div>
+// //    <div>
+// //     <p style={{ color: '#9a9a9a', fontSize: 13, marginBottom: 4 }}>{label}</p>
+// //     <p style={{ color: '#111', fontSize: 24, fontWeight: 700, lineHeight: 1 }}>
+// //      {value}
+// //     </p>
+// //    </div>
+// //   </div>
+// //  )
+// // }
+
+// // // ─── CUSTOM TOOLTIP ──────────────────────────────────────────────────────────
+
+// // function CustomTooltip({ active, payload, label }) {
+// //  if (active && payload && payload.length) {
+// //   return (
+// //    <div
+// //     style={{
+// //      background: '#fff',
+// //      border: 'none',
+// //      borderRadius: 10,
+// //      padding: '10px 16px',
+// //      boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+// //      color: '#111',
+// //      textAlign: 'center'
+// //     }}
+// //    >
+// //     <p style={{ fontWeight: 700, fontSize: 15 }}>864 Orders</p>
+// //     <p style={{ fontSize: 12, color: '#666' }}>{label}</p>
+// //    </div>
+// //   )
+// //  }
+// //  return null
+// // }
+
+// // // ─── STATS CARDS SECTION ─────────────────────────────────────────────────────
+
+// // function StatsCards() {
+// //  return (
+// //   <div
+// //    style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}
+// //   >
+// //    <StatsCard
+// //     label="Sales"
+// //     value="$152k"
+// //     icon="📊"
+// //     bgCard="#fdf0ec"
+// //     bgIcon="#fad5cb"
+// //     iconColor="#e07050"
+// //    />
+// //    <StatsCard
+// //     label="Cost"
+// //     value="$99.7k"
+// //     icon="🪙"
+// //     bgCard="#fdf8ec"
+// //     bgIcon="#f5e4b0"
+// //     iconColor="#c09030"
+// //    />
+// //    <StatsCard
+// //     label="Profit"
+// //     value="$32.1k"
+// //     icon="✅"
+// //     bgCard="#edf8f0"
+// //     bgIcon="#c5ecd4"
+// //     iconColor="#3aaa60"
+// //    />
+// //   </div>
+// //  )
+// // }
+
+// // // ─── SALES CHART ─────────────────────────────────────────────────────────────
+
+// // function SalesChart() {
+// //  return (
+// //   <div
+// //    style={{
+// //     background: '#111418',
+// //     borderRadius: 16,
+// //     padding: '24px',
+// //     height: '100%'
+// //    }}
+// //   >
+// //    <h3
+// //     style={{
+// //      color: '#e0e0e0',
+// //      fontWeight: 600,
+// //      marginBottom: 24,
+// //      fontSize: 15
+// //     }}
+// //    >
+// //     Sales Revenue
+// //    </h3>
+// //    <div style={{ height: 260 }}>
+// //     <ResponsiveContainer width="100%" height="100%">
+// //      <LineChart
+// //       data={salesData}
+// //       margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
+// //      >
+// //       <CartesianGrid stroke="#222" strokeDasharray="4 4" vertical={false} />
+// //       <XAxis
+// //        dataKey="month"
+// //        tick={{ fill: '#666', fontSize: 12 }}
+// //        axisLine={false}
+// //        tickLine={false}
+// //       />
+// //       <YAxis
+// //        tick={{ fill: '#666', fontSize: 12 }}
+// //        axisLine={false}
+// //        tickLine={false}
+// //        ticks={[0, 10, 20, 30, 40, 50]}
+// //       />
+// //       <Tooltip content={<CustomTooltip />} />
+// //       <Line
+// //        type="monotone"
+// //        dataKey="value"
+// //        stroke="#2563eb"
+// //        strokeWidth={2.5}
+// //        dot={{ r: 4, fill: '#2563eb', strokeWidth: 0 }}
+// //        activeDot={{ r: 6, fill: '#2563eb' }}
+// //       />
+// //      </LineChart>
+// //     </ResponsiveContainer>
+// //    </div>
+// //   </div>
+// //  )
+// // }
+
+// // // ─── TOP SELLING PRODUCTS ────────────────────────────────────────────────────
+
+// // function TopSellingProducts() {
+// //  return (
+// //   <div
+// //    style={{
+// //     background: '#111418',
+// //     borderRadius: 16,
+// //     padding: '24px',
+// //     height: '100%'
+// //    }}
+// //   >
+// //    <div
+// //     style={{
+// //      display: 'flex',
+// //      justifyContent: 'space-between',
+// //      alignItems: 'center',
+// //      marginBottom: 20
+// //     }}
+// //    >
+// //     <h3 style={{ color: '#e0e0e0', fontWeight: 600, fontSize: 15 }}>
+// //      Top selling products
+// //     </h3>
+// //     <button
+// //      style={{
+// //       background: 'none',
+// //       border: 'none',
+// //       color: '#888',
+// //       fontSize: 13,
+// //       cursor: 'pointer',
+// //       display: 'flex',
+// //       alignItems: 'center',
+// //       gap: 4
+// //      }}
+// //     >
+// //      See All →
+// //     </button>
+// //    </div>
+// //    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+// //     {topSellingProducts.map((p, i) => (
+// //      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+// //       <SellingProductAvatar />
+// //       <div style={{ flex: 1 }}>
+// //        <p style={{ color: '#c0c0c0', fontSize: 13, fontWeight: 500 }}>
+// //         {p.name}
+// //        </p>
+// //        <p style={{ color: '#666', fontSize: 12 }}>{p.category}</p>
+// //       </div>
+// //       <div style={{ textAlign: 'right' }}>
+// //        <p style={{ color: '#4ade80', fontSize: 13, fontWeight: 600 }}>
+// //         {p.sales}
+// //        </p>
+// //        <p style={{ color: '#666', fontSize: 12 }}>in sales</p>
+// //       </div>
+// //      </div>
+// //     ))}
+// //    </div>
+// //   </div>
+// //  )
+// // }
+
+// // // ─── RECENT TRANSACTIONS ─────────────────────────────────────────────────────
+
+// // function RecentTransactions() {
+// //  return (
+// //   <div
+// //    style={{
+// //     background: '#111418',
+// //     borderRadius: 16,
+// //     padding: '24px'
+// //    }}
+// //   >
+// //    <h3
+// //     style={{
+// //      color: '#e0e0e0',
+// //      fontWeight: 600,
+// //      marginBottom: 20,
+// //      fontSize: 15
+// //     }}
+// //    >
+// //     Recent Transactions
+// //    </h3>
+// //    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+// //     <thead>
+// //      <tr style={{ borderBottom: '1px solid #222' }}>
+// //       {['Name', 'Date', 'Amount', 'Status'].map((h) => (
+// //        <th
+// //         key={h}
+// //         style={{
+// //          textAlign: 'left',
+// //          color: '#666',
+// //          fontWeight: 500,
+// //          fontSize: 13,
+// //          paddingBottom: 12,
+// //          paddingRight: 16
+// //         }}
+// //        >
+// //         {h}
+// //        </th>
+// //       ))}
+// //      </tr>
+// //     </thead>
+// //     <tbody>
+// //      {transactions.map((t, i) => (
+// //       <tr
+// //        key={i}
+// //        style={{
+// //         borderBottom: i < transactions.length - 1 ? '1px solid #1a1a1a' : 'none'
+// //        }}
+// //       >
+// //        <td
+// //         style={{ padding: '14px 16px 14px 0', color: '#c0c0c0', fontSize: 14 }}
+// //        >
+// //         {t.name}
+// //        </td>
+// //        <td style={{ padding: '14px 16px 14px 0', color: '#888', fontSize: 14 }}>
+// //         {t.date}
+// //        </td>
+// //        <td
+// //         style={{ padding: '14px 16px 14px 0', color: '#c0c0c0', fontSize: 14 }}
+// //        >
+// //         {t.amount}
+// //        </td>
+// //        <td style={{ padding: '14px 0' }}>
+// //         <StatusBadge status={t.status} />
+// //        </td>
+// //       </tr>
+// //      ))}
+// //     </tbody>
+// //    </table>
+// //   </div>
+// //  )
+// // }
+
+// // // ─── TOP PRODUCTS BY UNITS ───────────────────────────────────────────────────
+
+// // function TopProductsByUnits() {
+// //  return (
+// //   <div
+// //    style={{
+// //     background: '#111418',
+// //     borderRadius: 16,
+// //     padding: '24px'
+// //    }}
+// //   >
+// //    <h3
+// //     style={{
+// //      color: '#e0e0e0',
+// //      fontWeight: 600,
+// //      marginBottom: 20,
+// //      fontSize: 15
+// //     }}
+// //    >
+// //     Top Products by Units Sold
+// //    </h3>
+// //    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+// //     <thead>
+// //      <tr style={{ borderBottom: '1px solid #222' }}>
+// //       <th
+// //        style={{
+// //         textAlign: 'left',
+// //         color: '#666',
+// //         fontWeight: 500,
+// //         fontSize: 13,
+// //         paddingBottom: 12
+// //        }}
+// //       >
+// //        Name
+// //       </th>
+// //       <th
+// //        style={{
+// //         textAlign: 'right',
+// //         color: '#666',
+// //         fontWeight: 500,
+// //         fontSize: 13,
+// //         paddingBottom: 12,
+// //         paddingRight: 24
+// //        }}
+// //       >
+// //        Price
+// //       </th>
+// //       <th
+// //        style={{
+// //         textAlign: 'right',
+// //         color: '#666',
+// //         fontWeight: 500,
+// //         fontSize: 13,
+// //         paddingBottom: 12
+// //        }}
+// //       >
+// //        Units
+// //       </th>
+// //      </tr>
+// //     </thead>
+// //     <tbody>
+// //      {topProductsByUnits.map((p, i) => (
+// //       <tr
+// //        key={i}
+// //        style={{
+// //         borderBottom:
+// //          i < topProductsByUnits.length - 1 ? '1px solid #1a1a1a' : 'none'
+// //        }}
+// //       >
+// //        <td
+// //         style={{
+// //          padding: '12px 0',
+// //          display: 'flex',
+// //          alignItems: 'center',
+// //          gap: 12
+// //         }}
+// //        >
+// //         <ProductThumb type={p.img} />
+// //         <span style={{ color: '#c0c0c0', fontSize: 14 }}>{p.name}</span>
+// //        </td>
+// //        <td
+// //         style={{
+// //          textAlign: 'right',
+// //          color: '#888',
+// //          fontSize: 14,
+// //          paddingRight: 24,
+// //          verticalAlign: 'middle'
+// //         }}
+// //        >
+// //         {p.price}
+// //        </td>
+// //        <td
+// //         style={{
+// //          textAlign: 'right',
+// //          color: '#c0c0c0',
+// //          fontSize: 14,
+// //          verticalAlign: 'middle'
+// //         }}
+// //        >
+// //         {p.units}
+// //        </td>
+// //       </tr>
+// //      ))}
+// //     </tbody>
+// //    </table>
+// //   </div>
+// //  )
+// // }
+
+// // // ─── MAIN DASHBOARD ──────────────────────────────────────────────────────────
+
+// // export default function Dashboard() {
+// //  return (
+// //   <div
+// //    style={{
+// //     minHeight: '100vh',
+// //     background: '#0d1117',
+// //     padding: '32px',
+// //     fontFamily: "'Segoe UI', sans-serif",
+// //     boxSizing: 'border-box'
+// //    }}
+// //   >
+// //    {/* Title */}
+// //    <h1
+// //     style={{
+// //      color: '#e0e0e0',
+// //      fontSize: 26,
+// //      fontWeight: 700,
+// //      marginBottom: 28
+// //     }}
+// //    >
+// //     Dashboard
+// //    </h1>
+
+// //    {/* Stats */}
+// //    <StatsCards />
+
+// //    {/* Chart + Top Selling */}
+// //    <div
+// //     style={{
+// //      display: 'grid',
+// //      gridTemplateColumns: '2fr 1fr',
+// //      gap: 20,
+// //      marginTop: 20
+// //     }}
+// //    >
+// //     <SalesChart />
+// //     <TopSellingProducts />
+// //    </div>
+
+// //    {/* Transactions + Top Products */}
+// //    <div
+// //     style={{
+// //      display: 'grid',
+// //      gridTemplateColumns: '1fr 1fr',
+// //      gap: 20,
+// //      marginTop: 20
+// //     }}
+// //    >
+// //     <RecentTransactions />
+// //     <TopProductsByUnits />
+// //    </div>
+// //   </div>
+// //  )
+// // }
+
+// import {
+//  CartesianGrid,
+//  Line,
+//  LineChart,
+//  ResponsiveContainer,
+//  Tooltip,
+//  XAxis,
+//  YAxis
+// } from 'recharts'
+
+// /* ─── DATA ─────────────────────────────────────────────────────────────────── */
+
+// const salesData = [
+//  { month: 'Jan', value: 10 },
+//  { month: 'Feb', value: 5 },
+//  { month: 'Mar', value: 15 },
+//  { month: 'Apr', value: 10 },
+//  { month: 'May', value: 35 },
+//  { month: 'Jun', value: 30 },
+//  { month: 'Jul', value: 35 },
+//  { month: 'Aug', value: 50 },
+//  { month: 'Sep', value: 45 },
+//  { month: 'Oct', value: 25 },
+//  { month: 'Nov', value: 25 },
+//  { month: 'Dec', value: 35 }
+// ]
+
+// const topSellingProducts = Array(5)
+//  .fill(null)
+//  .map(() => ({
+//   name: 'Healthcare Erbology',
+//   category: 'in Accessories',
+//   sales: '13,153'
+//  }))
+
+// const transactions = [
+//  {
+//   name: 'Jagarnath S.',
+//   date: '24.05.2023',
+//   amount: '$124.97',
+//   status: 'Paid'
+//  },
+//  { name: 'Anand G.', date: '23.05.2023', amount: '$55.42', status: 'Pending' },
+//  { name: 'Kartik S.', date: '23.05.2023', amount: '$89.90', status: 'Paid' },
+//  {
+//   name: 'Rakesh S.',
+//   date: '22.05.2023',
+//   amount: '$144.94',
+//   status: 'Pending'
+//  },
+//  { name: 'Anup S.', date: '22.05.2023', amount: '$70.52', status: 'Paid' },
+//  { name: 'Jimmy P.', date: '22.05.2023', amount: '$70.52', status: 'Paid' }
+// ]
+
+// const topProducts = [
+//  {
+//   name: 'Men Grey Hoodie',
+//   price: '$49.90',
+//   units: 204,
+//   color: '#2d2d2d',
+//   label: '🧥'
+//  },
+//  {
+//   name: 'Women Striped T-Shirt',
+//   price: '$34.90',
+//   units: 155,
+//   color: '#1a1a2e',
+//   label: '👕'
+//  },
+//  {
+//   name: 'Wome White T-Shirt',
+//   price: '$40.90',
+//   units: 120,
+//   color: '#e8e8e8',
+//   label: '👕'
+//  },
+//  {
+//   name: 'Men White T-Shirt',
+//   price: '$49.90',
+//   units: 204,
+//   color: '#d4d4d4',
+//   label: '👕'
+//  },
+//  {
+//   name: 'Women Red T-Shirt',
+//   price: '$34.90',
+//   units: 155,
+//   color: '#7a1a1a',
+//   label: '👕'
+//  }
+// ]
+
+// const statCards = [
+//  {
+//   label: 'Sales',
+//   value: '$152k',
+//   icon: '📊',
+//   bg: '#fff5f2',
+//   iconBg: '#fde8e2'
+//  },
+//  {
+//   label: 'Cost',
+//   value: '$99.7k',
+//   icon: '🪙',
+//   bg: '#fffbeb',
+//   iconBg: '#fef3c7'
+//  },
+//  {
+//   label: 'Profit',
+//   value: '$32.1k',
+//   icon: '✅',
+//   bg: '#f0fdf4',
+//   iconBg: '#dcfce7'
+//  }
+// ]
+
+// /* ─── HELPERS ───────────────────────────────────────────────────────────────── */
+
+// function StatusBadge({ status }) {
+//  const paid = status === 'Paid'
+//  return (
+//   <span
+//    style={{
+//     display: 'inline-block',
+//     padding: '5px 16px',
+//     borderRadius: 7,
+//     fontSize: 13,
+//     fontWeight: 500,
+//     background: paid ? 'rgba(72,199,142,.15)' : 'rgba(149,133,215,.15)',
+//     color: paid ? '#3ecf8e' : '#9585d7',
+//     border: `1px solid ${paid ? 'rgba(72,199,142,.35)' : 'rgba(149,133,215,.35)'}`
+//    }}
+//   >
+//    {status}
+//   </span>
+//  )
+// }
+
+// function ProductThumb({ color, label }) {
+//  return (
+//   <div
+//    style={{
+//     width: 44,
+//     height: 44,
+//     borderRadius: 8,
+//     background: color,
+//     display: 'flex',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     fontSize: 18,
+//     flexShrink: 0,
+//     border: '1px solid rgba(0,0,0,.08)'
+//    }}
+//   >
+//    {label}
+//   </div>
+//  )
+// }
+
+// function HerbAvatar() {
+//  return (
+//   <div
+//    style={{
+//     width: 46,
+//     height: 46,
+//     borderRadius: 8,
+//     background: 'linear-gradient(135deg,#1c2e20,#2e4a32)',
+//     border: '1px solid #2e4032',
+//     display: 'flex',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     fontSize: 20,
+//     flexShrink: 0
+//    }}
+//   >
+//    🌿
+//   </div>
+//  )
+// }
+
+// function ChartTooltip({ active, payload, label }) {
+//  if (!active || !payload?.length) return null
+//  return (
+//   <div
+//    style={{
+//     background: '#1e293b',
+//     borderRadius: 10,
+//     padding: '10px 18px',
+//     boxShadow: '0 4px 20px rgba(0,0,0,.35)',
+//     color: '#fff',
+//     textAlign: 'center'
+//    }}
+//   >
+//    <p style={{ fontWeight: 700, fontSize: 15, margin: 0 }}>864 Orders</p>
+//    <p style={{ fontSize: 12, color: '#94a3b8', margin: '3px 0 0' }}>{label}</p>
+//   </div>
+//  )
+// }
+
+// /* ─── COMPONENTS ────────────────────────────────────────────────────────────── */
+
+// function StatCards() {
+//  return (
+//   <div
+//    style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}
+//   >
+//    {statCards.map((c) => (
+//     <div
+//      key={c.label}
+//      style={{
+//       background: c.bg,
+//       borderRadius: 16,
+//       padding: '20px 22px',
+//       display: 'flex',
+//       alignItems: 'center',
+//       gap: 16,
+//       boxShadow: '0 2px 8px rgba(0,0,0,.06)'
+//      }}
+//     >
+//      <div
+//       style={{
+//        width: 52,
+//        height: 52,
+//        borderRadius: 14,
+//        background: c.iconBg,
+//        display: 'flex',
+//        alignItems: 'center',
+//        justifyContent: 'center',
+//        fontSize: 24,
+//        flexShrink: 0
+//       }}
+//      >
+//       {c.icon}
+//      </div>
+//      <div>
+//       <p style={{ color: '#6b7280', fontSize: 13, margin: '0 0 5px' }}>
+//        {c.label}
+//       </p>
+//       <p
+//        style={{
+//         color: '#111827',
+//         fontSize: 24,
+//         fontWeight: 800,
+//         margin: 0,
+//         lineHeight: 1
+//        }}
+//       >
+//        {c.value}
+//       </p>
+//      </div>
+//     </div>
+//    ))}
+//   </div>
+//  )
+// }
+
+// function SalesChartCard() {
+//  return (
+//   <div
+//    style={{
+//     background: '#fff',
+//     borderRadius: 16,
+//     padding: '24px 24px 16px',
+//     boxShadow: '0 2px 8px rgba(0,0,0,.06)',
+//     flex: 1,
+//     minWidth: 0
+//    }}
+//   >
+//    <h3
+//     style={{
+//      margin: '0 0 20px',
+//      fontWeight: 700,
+//      fontSize: 16,
+//      color: '#111827'
+//     }}
+//    >
+//     Sales Revenue
+//    </h3>
+//    <div style={{ height: 280 }}>
+//     <ResponsiveContainer width="100%" height="100%">
+//      <LineChart
+//       data={salesData}
+//       margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
+//      >
+//       <CartesianGrid stroke="#f0f0f0" strokeDasharray="4 4" vertical={false} />
+//       <XAxis
+//        dataKey="month"
+//        tick={{ fill: '#9ca3af', fontSize: 12 }}
+//        axisLine={false}
+//        tickLine={false}
+//       />
+//       <YAxis
+//        tick={{ fill: '#9ca3af', fontSize: 12 }}
+//        axisLine={false}
+//        tickLine={false}
+//        ticks={[0, 10, 20, 30, 40, 50]}
+//       />
+//       <Tooltip content={<ChartTooltip />} cursor={{ stroke: '#e5e7eb' }} />
+//       <Line
+//        type="monotone"
+//        dataKey="value"
+//        stroke="#3b82f6"
+//        strokeWidth={2.5}
+//        dot={{ r: 4, fill: '#3b82f6', strokeWidth: 0 }}
+//        activeDot={{ r: 6, fill: '#fff', stroke: '#3b82f6', strokeWidth: 2 }}
+//       />
+//      </LineChart>
+//     </ResponsiveContainer>
+//    </div>
+//   </div>
+//  )
+// }
+
+// function TopSellingCard() {
+//  return (
+//   <div
+//    style={{
+//     background: '#fff',
+//     borderRadius: 16,
+//     padding: 24,
+//     boxShadow: '0 2px 8px rgba(0,0,0,.06)',
+//     width: 270,
+//     flexShrink: 0
+//    }}
+//   >
+//    <div
+//     style={{
+//      display: 'flex',
+//      justifyContent: 'space-between',
+//      alignItems: 'center',
+//      marginBottom: 20
+//     }}
+//    >
+//     <h3 style={{ margin: 0, fontWeight: 700, fontSize: 15, color: '#111827' }}>
+//      Top selling products
+//     </h3>
+//     <button
+//      style={{
+//       background: 'none',
+//       border: 'none',
+//       color: '#6b7280',
+//       fontSize: 13,
+//       cursor: 'pointer'
+//      }}
+//     >
+//      See All →
+//     </button>
+//    </div>
+//    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+//     {topSellingProducts.map((p, i) => (
+//      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+//       <HerbAvatar />
+//       <div style={{ flex: 1, minWidth: 0 }}>
+//        <p
+//         style={{
+//          margin: 0,
+//          fontSize: 13,
+//          fontWeight: 600,
+//          color: '#374151',
+//          whiteSpace: 'nowrap',
+//          overflow: 'hidden',
+//          textOverflow: 'ellipsis'
+//         }}
+//        >
+//         {p.name}
+//        </p>
+//        <p style={{ margin: '3px 0 0', fontSize: 12, color: '#9ca3af' }}>
+//         {p.category}
+//        </p>
+//       </div>
+//       <div style={{ textAlign: 'right', flexShrink: 0 }}>
+//        <p
+//         style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#22c55e' }}
+//        >
+//         {p.sales}
+//        </p>
+//        <p style={{ margin: '3px 0 0', fontSize: 12, color: '#9ca3af' }}>
+//         in sales
+//        </p>
+//       </div>
+//      </div>
+//     ))}
+//    </div>
+//   </div>
+//  )
+// }
+
+// function RecentTransactionsCard() {
+//  return (
+//   <div
+//    style={{
+//     background: '#fff',
+//     borderRadius: 16,
+//     padding: 24,
+//     boxShadow: '0 2px 8px rgba(0,0,0,.06)',
+//     flex: 1,
+//     minWidth: 0
+//    }}
+//   >
+//    <h3
+//     style={{
+//      margin: '0 0 18px',
+//      fontWeight: 700,
+//      fontSize: 15,
+//      color: '#111827'
+//     }}
+//    >
+//     Recent Transactions
+//    </h3>
+//    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+//     <thead>
+//      <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
+//       {['Name', 'Date', 'Amount', 'Status'].map((h) => (
+//        <th
+//         key={h}
+//         style={{
+//          textAlign: 'left',
+//          color: '#9ca3af',
+//          fontWeight: 500,
+//          fontSize: 13,
+//          paddingBottom: 12,
+//          paddingRight: 12
+//         }}
+//        >
+//         {h}
+//        </th>
+//       ))}
+//      </tr>
+//     </thead>
+//     <tbody>
+//      {transactions.map((t, i) => (
+//       <tr
+//        key={i}
+//        style={{
+//         borderBottom: i < transactions.length - 1 ? '1px solid #f9fafb' : 'none'
+//        }}
+//       >
+//        <td
+//         style={{ padding: '13px 12px 13px 0', color: '#374151', fontSize: 14 }}
+//        >
+//         {t.name}
+//        </td>
+//        <td style={{ padding: '13px 12px', color: '#6b7280', fontSize: 14 }}>
+//         {t.date}
+//        </td>
+//        <td style={{ padding: '13px 12px', color: '#374151', fontSize: 14 }}>
+//         {t.amount}
+//        </td>
+//        <td style={{ padding: '13px 0' }}>
+//         <StatusBadge status={t.status} />
+//        </td>
+//       </tr>
+//      ))}
+//     </tbody>
+//    </table>
+//   </div>
+//  )
+// }
+
+// function TopProductsCard() {
+//  return (
+//   <div
+//    style={{
+//     background: '#fff',
+//     borderRadius: 16,
+//     padding: 24,
+//     boxShadow: '0 2px 8px rgba(0,0,0,.06)',
+//     flex: 1,
+//     minWidth: 0
+//    }}
+//   >
+//    <h3
+//     style={{
+//      margin: '0 0 18px',
+//      fontWeight: 700,
+//      fontSize: 15,
+//      color: '#111827'
+//     }}
+//    >
+//     Top Products by Units Sold
+//    </h3>
+//    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+//     <thead>
+//      <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
+//       <th
+//        style={{
+//         textAlign: 'left',
+//         color: '#9ca3af',
+//         fontWeight: 500,
+//         fontSize: 13,
+//         paddingBottom: 12
+//        }}
+//       >
+//        Name
+//       </th>
+//       <th
+//        style={{
+//         textAlign: 'right',
+//         color: '#9ca3af',
+//         fontWeight: 500,
+//         fontSize: 13,
+//         paddingBottom: 12
+//        }}
+//       >
+//        Price
+//       </th>
+//       <th
+//        style={{
+//         textAlign: 'right',
+//         color: '#9ca3af',
+//         fontWeight: 500,
+//         fontSize: 13,
+//         paddingBottom: 12
+//        }}
+//       >
+//        Units
+//       </th>
+//      </tr>
+//     </thead>
+//     <tbody>
+//      {topProducts.map((p, i) => (
+//       <tr
+//        key={i}
+//        style={{
+//         borderBottom: i < topProducts.length - 1 ? '1px solid #f9fafb' : 'none'
+//        }}
+//       >
+//        <td style={{ padding: '12px 0' }}>
+//         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+//          <ProductThumb color={p.color} label={p.label} />
+//          <span style={{ color: '#374151', fontSize: 14 }}>{p.name}</span>
+//         </div>
+//        </td>
+//        <td
+//         style={{
+//          textAlign: 'right',
+//          color: '#6b7280',
+//          fontSize: 14,
+//          verticalAlign: 'middle'
+//         }}
+//        >
+//         {p.price}
+//        </td>
+//        <td
+//         style={{
+//          textAlign: 'right',
+//          color: '#374151',
+//          fontSize: 14,
+//          fontWeight: 600,
+//          verticalAlign: 'middle'
+//         }}
+//        >
+//         {p.units}
+//        </td>
+//       </tr>
+//      ))}
+//     </tbody>
+//    </table>
+//   </div>
+//  )
+// }
+
+// /* ─── MAIN PAGE ─────────────────────────────────────────────────────────────── */
+
+// export default function DashboardPage() {
+//  return (
+//   <>
+//    <style>{`
+//         * { box-sizing: border-box; margin: 0; padding: 0; }
+//         body { background: #f1f5f9; font-family: 'Inter','Segoe UI',sans-serif; }
+
+//         .db-wrapper {
+//           padding: 28px;
+//           display: flex;
+//           flex-direction: column;
+//           gap: 20px;
+//           background: #f1f5f9;
+//           min-height: 100vh;
+//         }
+
+//         /* Stat cards: 3 cols on desktop */
+//         .stats-grid {
+//           display: grid;
+//           grid-template-columns: repeat(3, 1fr);
+//           gap: 16px;
+//         }
+
+//         /* Chart + TopSelling side by side */
+//         .mid-row {
+//           display: flex;
+//           gap: 20px;
+//           align-items: flex-start;
+//         }
+//         .top-sell-col {
+//           width: 270px;
+//           flex-shrink: 0;
+//         }
+
+//         /* Bottom: two tables side by side */
+//         .bottom-row {
+//           display: flex;
+//           gap: 20px;
+//         }
+
+//         /* ── TABLET (≤ 900px) ─────────────────────────── */
+//         @media (max-width: 900px) {
+//           .mid-row {
+//             flex-direction: column;
+//           }
+//           .top-sell-col {
+//             width: 100% !important;
+//           }
+//           .bottom-row {
+//             flex-direction: column;
+//           }
+//         }
+
+//         /* ── MOBILE (≤ 600px) ─────────────────────────── */
+//         @media (max-width: 600px) {
+//           .db-wrapper { padding: 16px; gap: 14px; }
+//           .stats-grid {
+//             grid-template-columns: 1fr;
+//             gap: 12px;
+//           }
+//           .db-title { font-size: 20px !important; }
+//         }
+//       `}</style>
+
+//    <div className="db-wrapper">
+//     <h1
+//      className="db-title"
+//      style={{ fontWeight: 800, fontSize: 26, color: '#111827' }}
+//     >
+//      Dashboard
+//     </h1>
+
+//     {/* Stat Cards */}
+//     <div className="stats-grid">
+//      {statCards.map((c) => (
+//       <div
+//        key={c.label}
+//        style={{
+//         background: c.bg,
+//         borderRadius: 16,
+//         padding: '20px 22px',
+//         display: 'flex',
+//         alignItems: 'center',
+//         gap: 16,
+//         boxShadow: '0 2px 8px rgba(0,0,0,.06)'
+//        }}
+//       >
+//        <div
+//         style={{
+//          width: 52,
+//          height: 52,
+//          borderRadius: 14,
+//          background: c.iconBg,
+//          display: 'flex',
+//          alignItems: 'center',
+//          justifyContent: 'center',
+//          fontSize: 24,
+//          flexShrink: 0
+//         }}
+//        >
+//         {c.icon}
+//        </div>
+//        <div>
+//         <p style={{ color: '#6b7280', fontSize: 13, marginBottom: 5 }}>
+//          {c.label}
+//         </p>
+//         <p
+//          style={{
+//           color: '#111827',
+//           fontSize: 24,
+//           fontWeight: 800,
+//           lineHeight: 1
+//          }}
+//         >
+//          {c.value}
+//         </p>
+//        </div>
+//       </div>
+//      ))}
+//     </div>
+
+//     {/* Chart + Top Selling */}
+//     <div className="mid-row">
+//      <SalesChartCard />
+//      <div className="top-sell-col">
+//       <TopSellingCard />
+//      </div>
+//     </div>
+
+//     {/* Tables */}
+//     <div className="bottom-row">
+//      <RecentTransactionsCard />
+//      <TopProductsCard />
+//     </div>
+//    </div>
+//   </>
+//  )
+// }
