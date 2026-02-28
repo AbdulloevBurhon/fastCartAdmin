@@ -1,17 +1,13 @@
-import { logout } from '@/features/auth/authSlice'
 import Button from '@/shared/ui/Button'
 import Dropdown from '@/shared/ui/Dropdown'
 import SearchInput from '@/shared/ui/SearchInput'
 import { Bell, ChevronDown, LogOut, Menu, Settings, User } from 'lucide-react'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 export default function Header({ onMenuClick }) {
  const navigate = useNavigate()
- const dispatch = useDispatch()
 
  const handleLogout = () => {
-  dispatch(logout())
   navigate('/auth/login')
  }
 
@@ -26,6 +22,7 @@ export default function Header({ onMenuClick }) {
   <header className="h-20 bg-[#1e293b] text-white flex items-center justify-between px-4 md:px-8">
    <div className="flex items-center gap-6">
     <img src="/log.png" alt="logo" className="h-8 object-contain lg:hidden" />
+
     <div className="hidden lg:block">
      <SearchInput className="w-80 bg-white/10 text-white placeholder:text-gray-400" />
     </div>
@@ -52,7 +49,7 @@ export default function Header({ onMenuClick }) {
        </div>
 
        <div className="hidden lg:block text-left">
-        <p className="text-sm font-semibold leading-none">Randhir kumar</p>
+        <p className="text-sm font-semibold leading-none">Randhir Kumar</p>
         <p className="text-xs text-gray-400">Administrator</p>
        </div>
 
