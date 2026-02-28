@@ -1,4 +1,6 @@
-export const makeImg = (seed) => `https://picsum.photos/seed/${seed}/200/200`
+export const TABS = ['Categories', 'Brands', 'Banners']
+
+const makeImg = (seed) => `https://picsum.photos/seed/${seed}/200/200`
 
 export const INIT_CATEGORIES = [
  { id: 1, name: 'Phones', img: makeImg('phone1'), hasContent: true },
@@ -20,12 +22,32 @@ export const INIT_CATEGORIES = [
 ]
 
 export const INIT_BRANDS = ['Samsung', 'Xiaomi', 'LG', 'Nokia', 'Panasonic']
+
 export const INIT_SLIDERS = [
  { id: 1, name: 'Healthcare_Erbology.png', img: '📱' },
  { id: 2, name: 'Healthcare_Erbology.png', img: '📱' },
  { id: 3, name: 'Healthcare_Erbology.png', img: '📱' }
 ]
+
 export const INIT_BANNERS = [
  { id: 1, name: 'Healthcare_Erbology.png', img: '🎧' }
 ]
-export const TABS = ['Categories', 'Brands', 'Banners']
+
+export const COLUMNS = [
+ {
+  key: 'image',
+  label: 'Image',
+  align: 'left'
+ },
+ {
+  key: 'name',
+  label: 'File name',
+  align: 'left'
+ },
+ {
+  key: 'action',
+  label: 'Action',
+  align: 'right',
+  headerClass: 'text-blue-500'
+ }
+]

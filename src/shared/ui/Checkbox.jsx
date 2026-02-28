@@ -1,15 +1,17 @@
-export default function Checkbox({
- checked = false,
- indeterminate = false,
- onChange
-}) {
+export default function Checkbox({ checked, indeterminate, onChange }) {
  return (
   <div
    onClick={onChange}
-   className="w-[18px] h-[18px] rounded flex items-center justify-center cursor-pointer flex-shrink-0 transition-all select-none"
+   className="flex-shrink-0 cursor-pointer select-none transition-all"
    style={{
+    width: 18,
+    height: 18,
+    borderRadius: 4,
     background: checked ? '#3b82f6' : 'transparent',
-    border: `2px solid ${checked ? '#3b82f6' : '#9ca3af'}`
+    border: `2px solid ${checked ? '#3b82f6' : '#9ca3af'}`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
    }}
   >
    {checked && (
@@ -23,9 +25,10 @@ export default function Checkbox({
      />
     </svg>
    )}
-
    {!checked && indeterminate && (
-    <div className="w-2 h-0.5 bg-gray-400 rounded" />
+    <div
+     style={{ width: 8, height: 2, background: '#9ca3af', borderRadius: 1 }}
+    />
    )}
   </div>
  )

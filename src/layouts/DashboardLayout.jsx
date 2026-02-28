@@ -14,20 +14,24 @@ export default function DashboardLayout() {
 
  return (
   <div className="flex min-h-screen bg-[#f4f6f9]">
+   {/* Desktop Sidebar */}
    <div className="hidden lg:block">
     <Sidebar />
    </div>
 
+   {/* Mobile Sidebar Overlay */}
    <div
     className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
      isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
     }`}
    >
+    {/* Backdrop */}
     <div
      className="absolute inset-0 bg-black/40"
      onClick={() => setIsSidebarOpen(false)}
     />
 
+    {/* Sidebar panel */}
     <div
      className={`absolute top-0 right-0 h-full w-72 bg-[#1e293b] text-white transform transition-transform duration-300 ${
       isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
@@ -68,10 +72,12 @@ export default function DashboardLayout() {
     </div>
    </div>
 
-   <div className="flex-1 flex flex-col">
+   {/* Main Content */}
+   <div className="flex-1 flex flex-col min-w-0">
     <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-    <main className="flex-1 py-6 px-4 md:px-8">
+    {/* 🔥 Отступы контролируем только тут */}
+    <main className="flex-1 py-6 min-w-0">
      <Container>
       <Outlet />
      </Container>

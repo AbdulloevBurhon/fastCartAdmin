@@ -8,7 +8,8 @@ import OrdersPage from '@/pages/orders/OrdersPage'
 
 import AuthLayout from '@/layouts/AuthLayout'
 import DashboardLayout from '@/layouts/DashboardLayout'
-import OtherPage from '@/pages/other/Otherpage'
+
+import OtherPage from '@/pages/other/OtherPage'
 import ProductsPage from '@/pages/products/ProductsPage'
 
 export const router = createBrowserRouter([

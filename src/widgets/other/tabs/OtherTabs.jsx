@@ -1,22 +1,20 @@
-const TABS = ['Categories', 'Brands', 'Banners']
+import { TABS } from '../data/constants'
 
 export default function OtherTabs({ active, onChange }) {
  return (
-  <div className="flex items-center gap-2 flex-wrap">
+  <div className="flex items-center gap-0.5">
    {TABS.map((tab) => {
-    const isActive = tab === active
-
+    const on = tab === active
     return (
      <button
       key={tab}
       onClick={() => onChange(tab)}
-      className={`px-5 py-2 rounded-xl text-sm font-semibold transition
-              ${
-               isActive
-                ? 'bg-blue-500 text-white'
-                : 'text-gray-400 hover:bg-gray-100'
-              }
-            `}
+      className="px-5 py-2 rounded-xl text-sm font-semibold transition-all"
+      style={{
+       background: on ? '#3b82f6' : 'transparent',
+       color: on ? '#fff' : '#9ca3af',
+       border: on ? '1px solid #3b82f6' : '1px solid transparent'
+      }}
      >
       {tab}
      </button>

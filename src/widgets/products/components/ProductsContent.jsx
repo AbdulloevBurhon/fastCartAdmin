@@ -1,23 +1,27 @@
 import Card from '@/shared/ui/Card'
 import Pagination from '@/shared/ui/Pagination'
 import TableToolbar from '@/shared/ui/TableToolbar'
-import OrdersTable from './OrdersTable'
-import { INITIAL_ORDERS, useOrdersLogic } from './data'
+import ProductsTable from '@/widgets/products/components/ProductsTable'
+import {
+ FILTER_OPTIONS,
+ INITIAL_PRODUCTS
+} from '@/widgets/products/data/constants'
+import { useProductsLogic } from '@/widgets/products/useProductsLogic'
 
-export default function OrdersContent() {
+export default function ProductsContent() {
  const {
   search,
   filter,
   page,
   totalPages,
   filteredLength,
-  paginatedData,
+  paginatedProducts,
   setFilter,
   setPage,
   handleSearch,
   toggleAll,
   toggleOne
- } = useOrdersLogic(INITIAL_ORDERS)
+ } = useProductsLogic(INITIAL_PRODUCTS)
 
  return (
   <Card className="rounded-2xl overflow-hidden p-0">
@@ -26,17 +30,17 @@ export default function OrdersContent() {
     onSearch={handleSearch}
     filter={filter}
     onFilter={setFilter}
-    filterOptions={['Newest', 'Oldest', 'By amount', 'By status']}
+    filterOptions={FILTER_OPTIONS}
    />
 
-   <OrdersTable
-    orders={paginatedData}
+   <ProductsTable
+    products={paginatedProducts}
     onToggle={toggleOne}
     onToggleAll={toggleAll}
    />
 
    {totalPages > 1 && (
-    <div className="px-6 py-4 border-t border-gray-100">
+    <div className="px-4 py-3 border-t border-gray-100">
      <Pagination
       page={page}
       totalPages={totalPages}

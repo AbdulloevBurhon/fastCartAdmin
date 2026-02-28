@@ -1,13 +1,4 @@
-const stats = [
- { label: 'Sales', value: '$152k', bg: 'bg-rose-50', iconBg: 'bg-rose-100' },
- { label: 'Cost', value: '$99.7k', bg: 'bg-amber-50', iconBg: 'bg-amber-100' },
- {
-  label: 'Profit',
-  value: '$32.1k',
-  bg: 'bg-emerald-50',
-  iconBg: 'bg-emerald-100'
- }
-]
+import { stats } from '@/pages/dashboard/data/products'
 
 export default function StatsCards() {
  return (

@@ -1,19 +1,23 @@
-export default function StatusBadge({ status }) {
- const styles = {
-  Paid: 'bg-green-100 text-green-600',
-  Pending: 'bg-gray-200 text-gray-600',
-  Ready: 'bg-orange-100 text-orange-600',
-  Shipped: 'bg-blue-100 text-blue-600',
-  Received: 'bg-purple-100 text-purple-600',
-  'In stock': 'bg-green-100 text-green-600',
-  'Out of stock': 'bg-red-100 text-red-600'
+export default function StatusBadge({ type = 'order', status }) {
+ const paymentStyles = {
+  Paid: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+  Pending: 'bg-amber-50 text-amber-600 border-amber-200'
  }
+
+ const orderStyles = {
+  Ready: 'bg-orange-50 text-orange-600 border-orange-200',
+  Shipped: 'bg-slate-100 text-slate-500 border-slate-200',
+  Received: 'bg-blue-50 text-blue-600 border-blue-200'
+ }
+
+ const styles = type === 'payment' ? paymentStyles : orderStyles
 
  return (
   <span
-   className={`px-3 py-1 text-xs rounded-full ${
-    styles[status] || 'bg-gray-200 text-gray-600'
-   }`}
+   className={`
+        inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold whitespace-nowrap border
+        ${styles[status]}
+      `}
   >
    {status}
   </span>

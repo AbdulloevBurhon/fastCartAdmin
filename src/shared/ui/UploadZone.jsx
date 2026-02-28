@@ -1,6 +1,7 @@
+import { Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
 
-function UploadZone({ onFile }) {
+export default function UploadZone({ onFile }) {
  const ref = useRef()
  const [drag, setDrag] = useState(false)
 
@@ -48,4 +49,3 @@ function UploadZone({ onFile }) {
   </div>
  )
 }
-export default UploadZone

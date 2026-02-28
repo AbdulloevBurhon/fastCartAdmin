@@ -1,3 +1,4 @@
+import { data } from '@/pages/dashboard/data/products'
 import {
  CartesianGrid,
  Line,
@@ -7,21 +8,6 @@ import {
  XAxis,
  YAxis
 } from 'recharts'
-
-const data = [
- { month: 'Jan', value: 10 },
- { month: 'Feb', value: 5 },
- { month: 'Mar', value: 15 },
- { month: 'Apr', value: 10 },
- { month: 'May', value: 35 },
- { month: 'Jun', value: 30 },
- { month: 'Jul', value: 35 },
- { month: 'Aug', value: 50 },
- { month: 'Sep', value: 45 },
- { month: 'Oct', value: 25 },
- { month: 'Nov', value: 25 },
- { month: 'Dec', value: 35 }
-]
 
 export default function SalesChart() {
  return (

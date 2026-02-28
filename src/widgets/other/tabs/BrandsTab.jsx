@@ -1,39 +1,79 @@
-import { useState } from 'react'
+import Button from '@/shared/ui/Button'
+import Input from '@/shared/ui/Input'
+import TableWrapper from '@/shared/ui/TableWrapper'
+import { Pencil, Trash2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { INIT_BRANDS } from '../data/constants'
 
-export default function BrandsTab() {
- const [brands, setBrands] = useState(['Samsung', 'LG', 'Xiaomi'])
+export default function BrandsTab({ onRegisterAction }) {
+ const [brands, setBrands] = useState(INIT_BRANDS)
  const [newBrand, setNewBrand] = useState('')
+ const inputRef = useRef(null)
 
- const addBrand = () => {
+ const handleCreate = () => {
   if (!newBrand.trim()) return
-  setBrands([...brands, newBrand.trim()])
+  setBrands((prev) => [...prev, newBrand.trim()])
   setNewBrand('')
  }
 
+ const handleDelete = (index) => {
+  setBrands((prev) => prev.filter((_, i) => i !== index))
+ }
+
+ // 🔹 регистрируем действие кнопки
+ useEffect(() => {
+  onRegisterAction?.(() => {
+   inputRef.current?.focus()
+  })
+ }, [onRegisterAction])
+
  return (
-  <div className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
-   <h2 className="text-lg font-semibold">Brands</h2>
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+   <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+    <TableWrapper items={brands} headers={['Brands', 'Action']} minWidth={400}>
+     {brands.map((brand, i) => (
+      <tr key={i}>
+       <td className="py-3.5 px-3 text-sm font-medium text-blue-500">
+        {brand}
+       </td>
 
-   <ul className="space-y-2">
-    {brands.map((b, i) => (
-     <li key={i} className="text-sm text-gray-700">
-      {b}
-     </li>
-    ))}
-   </ul>
+       <td className="py-3.5 px-3 text-right">
+        <div className="flex items-center justify-end gap-3">
+         <Button variant="ghost" size="icon">
+          <Pencil size={15} />
+         </Button>
 
-   <div className="flex gap-2">
-    <input
+         <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => handleDelete(i)}
+          className="text-red-400 hover:text-red-600"
+         >
+          <Trash2 size={15} />
+         </Button>
+        </div>
+       </td>
+      </tr>
+     ))}
+    </TableWrapper>
+   </div>
+
+   <div className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
+    <h3 className="text-lg font-bold text-gray-900">Add new brand</h3>
+
+    <Input
+     ref={inputRef}
      value={newBrand}
-     onChange={(e) => setNewBrand(e.target.value)}
-     className="border rounded-xl px-3 py-2 text-sm flex-1"
+     onChange={setNewBrand}
+     onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
+     placeholder="Brand name"
     />
-    <button
-     onClick={addBrand}
-     className="bg-blue-500 text-white px-4 rounded-xl text-sm"
-    >
-     Add
-    </button>
+
+    <div className="flex justify-end">
+     <Button variant="primary" onClick={handleCreate}>
+      Create
+     </Button>
+    </div>
    </div>
   </div>
  )

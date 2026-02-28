@@ -1,13 +1,9 @@
-const products = Array(5).fill({
- name: 'Healthcare Erbology',
- category: 'in Accessories',
- sales: '13,153',
- image: '/heal.png' // лежит в public
-})
+import { products1 } from '@/pages/dashboard/data/products'
+import Card from '@/shared/ui/Card'
 
 export default function TopSelling() {
  return (
-  <div className="bg-white rounded-2xl shadow-sm p-6">
+  <Card className="rounded-2xl">
    <div className="flex justify-between items-center mb-6">
     <h3 className="font-semibold text-gray-900">Top selling products</h3>
     <button className="text-sm text-gray-500 hover:text-gray-700">
@@ -16,7 +12,7 @@ export default function TopSelling() {
    </div>
 
    <div className="space-y-5">
-    {products.map((p, i) => (
+    {products1.map((p, i) => (
      <div key={i} className="flex items-center gap-4">
       <img
        src={p.image}
@@ -36,6 +32,6 @@ export default function TopSelling() {
      </div>
     ))}
    </div>
-  </div>
+  </Card>
  )
 }
