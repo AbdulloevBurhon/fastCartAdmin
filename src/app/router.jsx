@@ -9,8 +9,10 @@ import OrdersPage from '@/pages/orders/OrdersPage'
 import AuthLayout from '@/layouts/AuthLayout'
 import DashboardLayout from '@/layouts/DashboardLayout'
 
+import NotFoundPage from '@/pages/notFound/NotFound'
 import OtherPage from '@/pages/other/OtherPage'
 import ProductsPage from '@/pages/products/ProductsPage'
+import PrivateRoute from '@/routes/PrivateRoute'
 
 export const router = createBrowserRouter([
  {
@@ -24,13 +26,22 @@ export const router = createBrowserRouter([
  },
  {
   path: '/',
-  element: <DashboardLayout />,
+  element: (
+   <PrivateRoute>
+    <DashboardLayout />
+   </PrivateRoute>
+  ),
   children: [
    { index: true, element: <Navigate to="dashboard" replace /> },
    { path: 'dashboard', element: <DashboardPage /> },
    { path: 'orders', element: <OrdersPage /> },
    { path: 'products', element: <ProductsPage /> },
-   { path: 'other', element: <OtherPage /> }
+   { path: 'other', element: <OtherPage /> },
+   { path: '*', element: <NotFoundPage /> }
   ]
+ },
+ {
+  path: '*',
+  element: <NotFoundPage />
  }
 ])
