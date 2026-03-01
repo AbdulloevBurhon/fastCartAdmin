@@ -10,7 +10,7 @@ import { Link, useNavigate } from 'react-router-dom'
 export default function LoginPage() {
  const navigate = useNavigate()
  const dispatch = useDispatch()
-
+ console.log(import.meta.env.VITE_API_URL)
  const { isLoading, error } = useSelector((state) => state.auth)
  const [formData, setFormData] = useState({
   userName: '',

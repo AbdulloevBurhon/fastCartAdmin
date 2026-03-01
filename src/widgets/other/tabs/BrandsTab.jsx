@@ -1,4 +1,9 @@
-import { fetchBrands } from '@/features/brands/brandsThunks'
+import {
+ createBrandThunk,
+ deleteBrand,
+ fetchBrands,
+ updateBrandThunk
+} from '@/features/brands/brandsThunks'
 import Button from '@/shared/ui/Button'
 import Input from '@/shared/ui/Input'
 import TableWrapper from '@/shared/ui/TableWrapper'
@@ -7,9 +12,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function BrandsTab({ onRegisterAction }) {
- const [newBrand, setNewBrand] = useState('')
  const inputRef = useRef(null)
  const dispatch = useDispatch()
+ const [name, setName] = useState('')
+ const [editingId, setEditingId] = useState(null)
  const {
   items: brands,
   isLoading,
@@ -24,7 +30,21 @@ export default function BrandsTab({ onRegisterAction }) {
    inputRef.current?.focus()
   })
  }, [onRegisterAction])
+ const handleDelete = (id) => {
+  dispatch(deleteBrand(id))
+ }
+ const createBrandFn = async () => {
+  if (!name.trim()) return
 
+  if (editingId) {
+   await dispatch(updateBrandThunk({ id: editingId, name }))
+   setEditingId(null)
+  } else {
+   await dispatch(createBrandThunk({ name }))
+  }
+
+  setName('')
+ }
  return (
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -55,13 +75,21 @@ export default function BrandsTab({ onRegisterAction }) {
         </td>
         <td className="py-3.5 px-3 text-right">
          <div className="flex items-center justify-end gap-3">
-          <Button variant="ghost" size="icon">
+          <Button
+           variant="ghost"
+           size="icon"
+           onClick={() => {
+            setEditingId(brand.id)
+            setName(brand.name)
+           }}
+          >
            <Pencil size={15} />
           </Button>
           <Button
            variant="ghost"
            size="icon"
            className="text-red-400 hover:text-red-600"
+           onClick={() => handleDelete(brand.id)}
           >
            <Trash2 size={15} />
           </Button>
@@ -78,13 +106,13 @@ export default function BrandsTab({ onRegisterAction }) {
 
     <Input
      ref={inputRef}
-     value={newBrand}
-     onChange={setNewBrand}
      placeholder="Brand name"
+     onChange={(e) => setName(e.target.value)}
+     value={name}
     />
 
     <div className="flex justify-end">
-     <Button variant="primary" onClick={() => console.log('Create clicked')}>
+     <Button variant="primary" onClick={() => createBrandFn()}>
       Create
      </Button>
     </div>
