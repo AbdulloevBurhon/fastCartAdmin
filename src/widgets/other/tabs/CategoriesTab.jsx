@@ -1,109 +1,84 @@
-import Button from '@/shared/ui/Button'
+import { fetchCategories } from '@/features/categories/categoriesThunks'
 import Pagination from '@/shared/ui/Pagination'
 import SearchInput from '@/shared/ui/SearchInput'
 import AddCategoryModal from '@/widgets/other/components/AddCategoryModal'
-import { Camera, Pencil } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { INIT_CATEGORIES } from '../data/constants'
+import CategoryCard from '@/widgets/other/components/CategoryCard'
+import { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 const PAGE_SIZE = 8
 
-function CategoryCard({ item }) {
- return (
-  <div
-   className="relative rounded-2xl overflow-hidden group hover:shadow-lg transition-all cursor-pointer"
-   style={{ aspectRatio: '1/1', minHeight: 150 }}
-  >
-   {item.img ? (
-    <img
-     src={item.img}
-     alt={item.name || ''}
-     className="w-full h-full object-cover"
-    />
-   ) : (
-    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-     <Camera size={32} className="text-gray-400" strokeWidth={1.4} />
-    </div>
-   )}
-
-   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-   <Button
-    variant=""
-    size="icon"
-    className="absolute top-2.5 right-2.5 bg-blue-700 p-1 text-white text-2xl rounded-2xl"
-   >
-    <Pencil size={13} />
-   </Button>
-
-   {item.name && (
-    <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-black/60 to-transparent">
-     <span className="text-white text-xs font-semibold">{item.name}</span>
-    </div>
-   )}
-  </div>
- )
-}
-
 export default function CategoriesTab({ onRegisterAction }) {
- const [categories, setCategories] = useState(INIT_CATEGORIES)
+ const dispatch = useDispatch()
+ const {
+  categories = [],
+  loading,
+  error
+ } = useSelector((state) => state.categories)
+
  const [search, setSearch] = useState('')
  const [page, setPage] = useState(1)
  const [modal, setModal] = useState(false)
 
+ // 🔹 Загружаем категории
+ useEffect(() => {
+  dispatch(fetchCategories())
+ }, [dispatch])
+
+ // 🔹 Сброс страницы при поиске
  useEffect(() => {
   setPage(1)
  }, [search])
 
- // 🔹 регистрируем действие кнопки
+ // 🔹 Регистрация кнопки добавления
  useEffect(() => {
   onRegisterAction?.(() => setModal(true))
  }, [onRegisterAction])
 
- const filtered = categories.filter(
-  (c) => !c.name || c.name.toLowerCase().includes(search.toLowerCase())
- )
+ // 🔹 Фильтрация
+ const filtered = useMemo(() => {
+  return categories.filter((c) =>
+   c?.name?.toLowerCase().includes(search.toLowerCase())
+  )
+ }, [categories, search])
 
  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
 
- const paginatedCategories = filtered.slice(
-  (page - 1) * PAGE_SIZE,
-  page * PAGE_SIZE
- )
+ const paginatedCategories = useMemo(() => {
+  return filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+ }, [filtered, page])
 
- const handleAdd = (name, imgUrl) => {
-  setCategories((prev) => [
-   {
-    id: Date.now(),
-    name,
-    img: imgUrl || `https://picsum.photos/seed/${name}/200/200`,
-    hasContent: true
-   },
-   ...prev
-  ])
+ if (loading) {
+  return <div className="p-6 text-gray-500">Loading...</div>
+ }
+
+ if (error) {
+  return <div className="p-6 text-red-500">Error: {error}</div>
  }
 
  return (
   <div className="space-y-4">
    <SearchInput value={search} onChange={setSearch} />
 
-   <div
-    className="grid gap-4"
-    style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))' }}
-   >
+   {/* 🔹 Grid карточек */}
+   <div className="flex flex-col gap-4">
     {paginatedCategories.map((item) => (
      <CategoryCard key={item.id} item={item} />
     ))}
    </div>
 
+   {/* 🔹 Pagination */}
    <div className="bg-white rounded-2xl shadow-sm px-4 py-3">
-    <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+    <Pagination
+     page={page}
+     totalPages={totalPages}
+     onChange={setPage}
+     showResults
+     totalResults={filtered.length}
+    />
    </div>
 
-   <AddCategoryModal
-    isOpen={modal}
-    onClose={() => setModal(false)}
-    onAdd={handleAdd}
-   />
+   <AddCategoryModal isOpen={modal} onClose={() => setModal(false)} />
   </div>
  )
 }

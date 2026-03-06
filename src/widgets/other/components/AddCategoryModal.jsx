@@ -1,21 +1,28 @@
 import Button from '@/shared/ui/Button'
 import Input from '@/shared/ui/Input'
 import Modal from '@/shared/ui/Modal'
-import UploadZone from '@/shared/ui/UploadZone'
 import { useState } from 'react'
 
 export default function AddCategoryModal({ isOpen, onClose, onAdd }) {
  const [name, setName] = useState('')
- const [previewUrl, setPreviewUrl] = useState(null)
+ const [description, setDescription] = useState('')
 
  const handleCreate = () => {
   if (!name.trim()) return
-  onAdd(name.trim(), previewUrl)
+
+  onAdd({
+   name: name.trim(),
+   description: description.trim()
+  })
+
+  setName('')
+  setDescription('')
   onClose()
  }
 
  return (
-  <Modal isOpen={isOpen} onClose={onClose} title="Add category" size="md">
+  <Modal isOpen={isOpen} onClose={onClose} title="Add Category" size="md">
+   {/* Name */}
    <Input
     value={name}
     onChange={setName}
@@ -24,7 +31,13 @@ export default function AddCategoryModal({ isOpen, onClose, onAdd }) {
     className="mb-4"
    />
 
-   <UploadZone preview={previewUrl} onChange={setPreviewUrl} />
+   {/* Description */}
+   <Input
+    value={description}
+    onChange={setDescription}
+    placeholder="Category description"
+    className="mb-4"
+   />
 
    <div className="flex justify-end gap-3 mt-6">
     <Button variant="secondary" onClick={onClose}>
